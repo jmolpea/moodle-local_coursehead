@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/coursehead/db" VERSION="20260611" COMMENT="XMLDB file for Moodle local/coursehead"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="local_coursehead" COMMENT="Per-course custom head assets (CSS and JavaScript) configuration.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course these assets belong to."/>
+        <FIELD NAME="enabled" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Master switch for this course."/>
+        <FIELD NAME="cssenabled" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the custom CSS is served."/>
+        <FIELD NAME="jsenabled" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the custom JavaScript is served."/>
+        <FIELD NAME="customcss" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Raw CSS rules."/>
+        <FIELD NAME="customjs" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Raw JavaScript code."/>
+        <FIELD NAME="jsloadstrategy" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="defer" SEQUENCE="false" COMMENT="Script loading strategy: defer or blocking."/>
+        <FIELD NAME="revision" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Deterministic cache-busting revision hash."/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="courseid" TYPE="foreign-unique" FIELDS="courseid" REFTABLE="course" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="enabled" UNIQUE="false" FIELDS="enabled"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

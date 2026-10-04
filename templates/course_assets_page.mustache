@@ -1,0 +1,77 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_coursehead/course_assets_page
+
+    Status panel of the course custom head assets management page.
+
+    Context variables required for this template:
+    * coursename - Formatted course full name.
+    * hasassets - Whether an asset record exists for the course.
+    * enabled - Whether the course assets are enabled.
+    * hascss - Whether enabled CSS will be served for the course.
+    * hasjs - Whether enabled JavaScript will be served for the course.
+    * cssurl - The generated CSS asset URL.
+    * jsurl - The generated JavaScript asset URL.
+    * revision - The current asset revision string.
+    * showwarning - Whether to display the JavaScript security warning.
+
+    Example context (json):
+    {
+        "coursename": "Course 1",
+        "hasassets": true,
+        "enabled": true,
+        "hascss": true,
+        "hasjs": false,
+        "cssurl": "https://example.edu/local/coursehead/style.php?courseid=2&rev=abc123",
+        "jsurl": "",
+        "revision": "abc123",
+        "showwarning": true
+    }
+}}
+<div class="local-coursehead-status card mb-4">
+    <div class="card-body">
+        <h3 class="card-title h5">{{#str}} currentstatus, local_coursehead {{/str}} — {{{coursename}}}</h3>
+        {{#hasassets}}
+            <ul class="list-unstyled mb-0">
+                <li>
+                    {{#enabled}}
+                        <span class="badge badge-success text-bg-success">{{#str}} statusenabled, local_coursehead {{/str}}</span>
+                    {{/enabled}}
+                    {{^enabled}}
+                        <span class="badge badge-secondary text-bg-secondary">{{#str}} statusdisabled, local_coursehead {{/str}}</span>
+                    {{/enabled}}
+                </li>
+                {{#hascss}}
+                    <li class="mt-2">{{#str}} cssurl, local_coursehead {{/str}}: <code>{{cssurl}}</code></li>
+                {{/hascss}}
+                {{#hasjs}}
+                    <li class="mt-2">{{#str}} jsurl, local_coursehead {{/str}}: <code>{{jsurl}}</code></li>
+                {{/hasjs}}
+                <li class="mt-2 text-muted small">{{#str}} revision, local_coursehead {{/str}}: <code>{{revision}}</code></li>
+            </ul>
+        {{/hasassets}}
+        {{^hasassets}}
+            <p class="mb-0">{{#str}} noassets, local_coursehead {{/str}}</p>
+        {{/hasassets}}
+    </div>
+</div>
+{{#showwarning}}
+    <div class="alert alert-warning" role="alert">
+        {{#str}} jssecuritywarning, local_coursehead {{/str}}
+    </div>
+{{/showwarning}}
